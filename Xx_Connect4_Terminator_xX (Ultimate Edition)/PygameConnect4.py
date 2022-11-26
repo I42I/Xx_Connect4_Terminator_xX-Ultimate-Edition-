@@ -6,6 +6,7 @@ import pygame_menu
 import sys
 import random
 import math
+import time
 
 rand = random.Random()
 
@@ -161,6 +162,7 @@ class Connect4_GUI(Connect4):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     exit_flag = True
+            time.sleep(5)
             popup = pygame.display.set_mode((500, 300))
             menu = pygame_menu.Menu('Partie terminée', 500, 300, theme=pygame_menu.themes.THEME_DARK)
             if resultat == 0:
