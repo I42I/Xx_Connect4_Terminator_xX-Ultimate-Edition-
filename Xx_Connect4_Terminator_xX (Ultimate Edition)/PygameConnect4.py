@@ -121,7 +121,7 @@ class Connect4_GUI(Connect4):
                                      [-1., 1., 1., 1., 1., 1., -1.],
                                      [0., -1., 1., 1., 1., -1., 0.],
                                      [0., 0., -1., -1., -1., 0., 0.]]
-                        move = 5
+                        move = 4
 
                     if move in moves:
                         self.make_move(move)
@@ -134,6 +134,11 @@ class Connect4_GUI(Connect4):
                             color2 = self.YELLOW
                         pygame.draw.rect(self.SCREEN, color1, (self.WIDTH - 50, self.SQUARESIZE, 50, self.HEIGHT))
                         pygame.display.update()
+                        if difficulty == 0.06969:
+                            time.sleep(5)
+                            winner = True
+                            resultat = 2
+                            break
                         Bar = (1 - (score / 100)) * ((self.HEIGHT - self.SQUARESIZE) / 2)
                         pygame.draw.rect(self.SCREEN, color2, (self.WIDTH - 50, self.SQUARESIZE, 50, Bar))
                         label = texte.render(str(-(round(score, 2))), 1, self.GREY)
