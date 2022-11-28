@@ -101,12 +101,12 @@ def connected_four(position):
 
 
 def run_game(the_bitmap, the_mask):
-    i = 0
+    i = 1
     while the_mask != 279258638311359:
 
         move = ai_random(the_bitmap, the_mask)
         the_bitmap, the_mask = make_move(the_bitmap, the_mask, move)
-        if connected_four(the_bitmap):
+        if connected_four(the_bitmap ^ the_mask):
             return (-1)**i
         i += 1
 
