@@ -72,7 +72,10 @@ def set_difficulty(value, difficulty):
         menu.move_widget_index(label6, index=3, render=True)
 
     if value != (('Personnalisée', 420), 4) and slider:
-        menu.remove_widget(difficulty_value)
+        try:
+            menu.remove_widget(difficulty_value)
+        except:
+            pass
         slider = False
 
     if value != (('Trivial', 0.5), 0) and text1:
