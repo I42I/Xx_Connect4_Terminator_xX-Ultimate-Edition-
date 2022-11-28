@@ -8,6 +8,7 @@ import random
 import math
 import time
 
+
 rand = random.Random()
 
 
@@ -45,7 +46,7 @@ class Connect4_GUI(Connect4):
                     pygame.draw.circle(self.SCREEN, self.YELLOW, loc, self.RADIUS)
         pygame.display.update()
 
-    def run_game(self, difficulty, joueur):
+    def run_game(self, difficulty, joueur, nom):
         score = 0
         pygame.init()
         myfont = pygame.font.SysFont("impact", 75)
@@ -96,10 +97,10 @@ class Connect4_GUI(Connect4):
                         self.draw_board()
                         if self.get_winner():
                             if human_player == 1:
-                                label = myfont.render("Human wins !!!", 1, self.RED)
+                                label = myfont.render(nom + " gagne !!!", 1, self.RED)
                                 resultat = 1
                             else:
-                                label = myfont.render("Human wins !!!", 1, self.YELLOW)
+                                label = myfont.render(nom + " gagne !!!", 1, self.YELLOW)
                                 resultat = 1
                             self.SCREEN.blit(label, (40, 10))
                             self.draw_board()
@@ -146,10 +147,10 @@ class Connect4_GUI(Connect4):
                         pygame.display.update()
                         if self.get_winner():
                             if player == 1:
-                                label = myfont.render("Human loses !", 1, self.RED)
+                                label = myfont.render(nom + " a perdu !", 1, self.RED)
                                 resultat = 0
                             else:
-                                label = myfont.render("Human loses !", 1, self.YELLOW)
+                                label = myfont.render(nom + " a perdu !", 1, self.YELLOW)
                                 resultat = 0
                             self.SCREEN.blit(label, (40, 10))
                             self.draw_board()
@@ -159,7 +160,7 @@ class Connect4_GUI(Connect4):
                         player = -player
             moves = self.get_avail_moves()
         if winner == False and moves == []:
-            label = myfont.render("It's a Draw :/", 1, self.LIGHT_BLUE)
+            label = myfont.render("Égalité :/", 1, self.LIGHT_BLUE)
             resultat = 0
             self.SCREEN.blit(label, (40, 10))
             self.draw_board()
@@ -187,16 +188,18 @@ def retry():
     SIZE = (WIDTH, HEIGHT)
     RADIUS = int(SQUARESIZE / 2 - 5)
     SCREEN = pygame.display.set_mode(SIZE)
-    main(diff, plr)
+    main(diff, plr, nm)
 
 
-def main(difficulty, player):
+def main(difficulty, player, nom_joueur):
     global diff
     diff = difficulty
     global plr
     plr = player
+    global nm
+    nm = nom_joueur
     my_game = Connect4_GUI()
-    my_game.run_game(difficulty, player)
+    my_game.run_game(difficulty, player, nom_joueur)
 
 
 if __name__ == "__main__":
