@@ -12,6 +12,7 @@ pygame.init()
 surface = pygame.display.set_mode((750, 400))
 difficulty_time = 0.5
 player = 1
+nom_joueur = "Gazou"
 slider = False
 text1 = False
 text2 = False
@@ -101,6 +102,16 @@ def set_difficulty_slider(difficulty):
     difficulty_time = difficulty
 
 
+def player(value, joueur):
+    global player
+    player = joueur
+
+
+def name(nom):
+    global nom_joueur
+    nom_joueur = nom
+
+
 def start_the_game():
     SQUARESIZE = 100
     WIDTH = Connect4.NUM_COLS * SQUARESIZE + 50
@@ -108,21 +119,13 @@ def start_the_game():
     SIZE = (WIDTH, HEIGHT)
     RADIUS = int(SQUARESIZE / 2 - 5)
     SCREEN = pygame.display.set_mode(SIZE)
-    print(difficulty_time)
-    PygameConnect4.main(difficulty_time, player)
-
-
-
-def player(value, joueur):
-    global player
-    player = joueur
-
+    PygameConnect4.main(difficulty_time, player, nom_joueur)
 
 
 def frame():
     surface = pygame.display.set_mode((750, 400))
     menu.clear(True)
-    menu.add.text_input('Name : ', default='Gazou')
+    menu.add.text_input('Name : ', default='Gazou', onchange=name)
     menu.add.selector('Difficulty :',
                       [('Trivial', 0.5), ('Piece of cake', 1), ('Pilou Pilou', 3), ('PILOU PILOU !', 10),
                        ('Personnalisée', 420), ('Partie de maîtres', 0.06969)], onchange=set_difficulty)
