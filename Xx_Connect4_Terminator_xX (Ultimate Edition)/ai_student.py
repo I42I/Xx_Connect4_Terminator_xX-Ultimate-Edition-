@@ -56,7 +56,7 @@ def ai_student(board, player, temps):
     Best_move = np.argmax(N)
     #print(((2 * W[Best_move] / N[Best_move]) - 1) * 100)
     #print(Q[Best_move] / N[Best_move] * 100)
-    return Best_move, ((2 * W[Best_move] / N[Best_move]) - 1) * 100, sum(N)
+    return Best_move, ((2 * W[Best_move] / N[Best_move]) - 1 + (D[Best_move] / N[Best_move])) * 100, sum(N)
 
 
 def get_position_mask_bitmap(board, player):
@@ -117,13 +117,12 @@ def ai_random(arg_bitmap, arg_mask):
     # Collects the moves which can be played (i.e. the nonfull columns)
     nonfull_cols = legal_moves(arg_mask)
     for col in nonfull_cols:
-
         # Creates the attack and defense moves, to check if one is a winning move
         attack_bitmap, attack_mask = make_move(arg_bitmap, arg_mask, col)
         if connected_four(attack_bitmap ^ attack_mask):
             return col
 
-
+    for col in nonfull_cols:
         copy_cols = nonfull_cols[:]
         copy_cols.remove(col)
         if copy_cols != []:
