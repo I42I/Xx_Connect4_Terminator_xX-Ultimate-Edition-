@@ -29,27 +29,15 @@ def ai_student(board, player, temps):
         UCT[node] = np.inf
 
     for col in leaf:
-
         # Creates the attack and defense moves, to check if one is a winning move
         attack_bitmap, attack_mask = make_move(bitmap, mask, col)
-        nonfull_cols_attack = legal_moves(attack_mask)
-        if nonfull_cols_attack != []:
-            check_bitmap, check_mask = make_move(attack_bitmap, attack_mask, rd.choice(nonfull_cols_attack))
-            # Plays if winning move for him
-            if connected_four(check_bitmap):
-                return col, 100, 1
+        if connected_four(attack_bitmap ^ attack_mask):
+            return col, 100, 1
 
-        copy_cols = leaf[:]
-        copy_cols.remove(col)
-        if copy_cols != []:
-            temp_bitmap, temp_mask = make_move(bitmap, mask, rd.choice(copy_cols))
-            defense_bitmap, defense_mask = make_move(temp_bitmap, temp_mask, col)
-            nonfull_cols_defense = legal_moves(defense_mask)
-            if nonfull_cols_defense != []:
-                defense_bitmap, defense_mask = make_move(defense_bitmap, defense_mask, rd.choice(nonfull_cols_defense))
-
-                if connected_four(defense_bitmap):
-                    return col, None, 1
+    for col in leaf:
+        defense_bitmap, defense_mask = make_move(bitmap_opponent, mask_opponent, col)
+        if connected_four(defense_bitmap ^ defense_mask):
+            return col, None, 1
 
     while time.time() - start_time < temps:
         node = np.argmax(UCT)
@@ -66,7 +54,7 @@ def ai_student(board, player, temps):
         UCT[node] = Q[node] / N[node] + math.sqrt(1.4 * math.log(sum(N)) / N[node])
 
     Best_move = np.argmax(N)
-    print(((2 * W[Best_move] / N[Best_move]) - 1) * 100)
+    #print(((2 * W[Best_move] / N[Best_move]) - 1) * 100)
     #print(Q[Best_move] / N[Best_move] * 100)
     return Best_move, ((2 * W[Best_move] / N[Best_move]) - 1) * 100, sum(N)
 
@@ -132,24 +120,17 @@ def ai_random(arg_bitmap, arg_mask):
 
         # Creates the attack and defense moves, to check if one is a winning move
         attack_bitmap, attack_mask = make_move(arg_bitmap, arg_mask, col)
-        nonfull_cols_attack = legal_moves(attack_mask)
-        if nonfull_cols_attack != []:
-            check_bitmap, check_mask = make_move(attack_bitmap, attack_mask, rd.choice(nonfull_cols_attack))
-            # Plays if winning move for him
-            if connected_four(check_bitmap):
-                return col
+        if connected_four(attack_bitmap ^ attack_mask):
+            return col
+
 
         copy_cols = nonfull_cols[:]
         copy_cols.remove(col)
         if copy_cols != []:
             temp_bitmap, temp_mask = make_move(arg_bitmap, arg_mask, rd.choice(copy_cols))
             defense_bitmap, defense_mask = make_move(temp_bitmap, temp_mask, col)
-            nonfull_cols_defense = legal_moves(defense_mask)
-            if nonfull_cols_defense != []:
-                defense_bitmap, defense_mask = make_move(defense_bitmap, defense_mask, rd.choice(nonfull_cols_defense))
-
-                if connected_four(defense_bitmap):
-                    return col
+            if connected_four(defense_bitmap ^ defense_mask):
+                return col
 
     # Otherwise, plays random
     return rd.choice(nonfull_cols)
