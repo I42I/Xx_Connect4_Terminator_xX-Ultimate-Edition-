@@ -42,20 +42,21 @@ def ai_student(board, player, temps):
     while time.time() - start_time < temps:
         node = np.argmax(UCT)
         bitmap_simulation, mask_simulation = make_move(bitmap, mask, node)
-        #for i in range(50):
-        result = run_game(bitmap_simulation, mask_simulation)
-        if result == 1:
-            Q[node] += 1
-            W[node] += 1
-        if result == 0:
-            Q[node] += 0.0001
-            D[node] += 1
-        N[node] += 1
+        for i in range(10):
+            result = run_game(bitmap_simulation, mask_simulation)
+            if result == 1:
+                Q[node] += 1
+                W[node] += 1
+            if result == 0:
+                Q[node] += 0.0001
+                D[node] += 1
+            N[node] += 1
         UCT[node] = Q[node] / N[node] + math.sqrt(1.4 * math.log(sum(N)) / N[node])
 
     Best_move = np.argmax(N)
-    #print(((2 * W[Best_move] / N[Best_move]) - 1) * 100)
-    #print(Q[Best_move] / N[Best_move] * 100)
+    # print(((2 * W[Best_move] / N[Best_move]) - 1) * 100)
+    # print(Q[Best_move] / N[Best_move] * 100)
+    # print(sum(N))
     return Best_move, ((2 * W[Best_move] / N[Best_move]) - 1 + (D[Best_move] / N[Best_move])) * 100, sum(N)
 
 
@@ -116,12 +117,13 @@ def run_game(the_bitmap, the_mask):
 def ai_random(arg_bitmap, arg_mask):
     # Collects the moves which can be played (i.e. the nonfull columns)
     nonfull_cols = legal_moves(arg_mask)
+
     for col in nonfull_cols:
         # Creates the attack and defense moves, to check if one is a winning move
         attack_bitmap, attack_mask = make_move(arg_bitmap, arg_mask, col)
         if connected_four(attack_bitmap ^ attack_mask):
             return col
-
+    
     for col in nonfull_cols:
         copy_cols = nonfull_cols[:]
         copy_cols.remove(col)
