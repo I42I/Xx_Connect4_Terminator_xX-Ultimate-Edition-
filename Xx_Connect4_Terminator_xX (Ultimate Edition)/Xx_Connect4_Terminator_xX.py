@@ -79,24 +79,42 @@ def set_difficulty(value, difficulty):
         slider = False
 
     if value != (('Trivial', 0.5), 0) and text1:
-        menu.remove_widget(label1)
+        try:
+            menu.remove_widget(label1)
+        except:
+            pass
         text1 = False
 
     if value != (('Piece of cake', 1), 1) and text2:
-        menu.remove_widget(label2)
+        try:
+            menu.remove_widget(label2)
+        except:
+            pass
         text2 = False
 
     if value != (('Pilou Pilou', 3), 2) and text3:
-        menu.remove_widget(label3)
+        try:
+            menu.remove_widget(label3)
+        except:
+            pass
         text3 = False
 
     if value != (('PILOU PILOU !', 10), 3) and text4:
-        menu.remove_widget(label4)
+        try:
+            menu.remove_widget(label4)
+        except:
+            pass
         text4 = False
 
     if value != (('Partie de maîtres', 0.06969), 5) and text5:
-        menu.remove_widget(label5)
-        menu.remove_widget(label6)
+        try:
+            menu.remove_widget(label5)
+        except:
+            pass
+        try:
+            menu.remove_widget(label6)
+        except:
+            pass
         text5 = False
 
 
